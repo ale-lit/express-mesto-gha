@@ -1,8 +1,5 @@
 const User = require('../models/user');
-
-const ERROR_DEFAULT = 500;
-const ERROR_CODE = 400;
-const ERROR_NOT_FOUND = 404;
+const { ERROR_DEFAULT, ERROR_CODE, ERROR_NOT_FOUND } = require('./errors');
 
 module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
