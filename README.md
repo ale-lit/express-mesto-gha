@@ -1,13 +1,8 @@
-https://github.com/ale-lit/express-mesto-gha
-
-[![Tests](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-13-sprint.yml) [![Tests](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-14-sprint.yml)
 # Проект Mesto фронтенд + бэкенд
 
-```
-[![Tests for sprint 13](https://github.com/ale-lit/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/ale-lit/express-mesto-gha/actions/workflows/tests-13-sprint.yml) 
+https://github.com/ale-lit/express-mesto-gha
 
-[![Tests for sprint 14](https://github.com/${имя_пользователя}/${имя репозитория}/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/${имя_пользователя}/${имя репозитория}/actions/workflows/tests-14-sprint.yml)
-```
+[![Tests](https://github.com/ale-lit/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/ale-lit/express-mesto-gha/actions/workflows/tests-13-sprint.yml) [![Tests](https://github.com/ale-lit/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/ale-lit/express-mesto-gha/actions/workflows/tests-14-sprint.yml)
 
 ## Директории
 
