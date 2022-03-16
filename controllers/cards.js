@@ -1,5 +1,10 @@
 const Card = require('../models/card');
-const { ERROR_DEFAULT, ERROR_CODE, ERROR_NOT_FOUND } = require('./errors');
+const {
+  ERROR_DEFAULT,
+  ERROR_CODE,
+  ERROR_FORBIDDEN,
+  ERROR_NOT_FOUND,
+} = require('../errors');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
@@ -8,20 +13,27 @@ module.exports.getCards = (req, res) => {
 };
 
 module.exports.deleteCard = (req, res) => {
-  Card.findByIdAndRemove(req.params.id)
+  Card.findById(req.params.id)
     .then((card) => {
       if (!card) {
         res.status(ERROR_NOT_FOUND).send({ message: 'Передан несуществующий _id карточки.' });
         return;
       }
-      res.status(200).send({ message: 'Пост удалён' });
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(ERROR_CODE).send({ message: 'Передан некорректный _id карточки.' });
-        return;
+      if (card.owner === req.user._id) {
+        Card.findByIdAndRemove(req.params.id)
+          .then(() => {
+            res.status(200).send({ message: 'Пост удалён' });
+          })
+          .catch((err) => {
+            if (err.name === 'CastError') {
+              res.status(ERROR_CODE).send({ message: 'Передан некорректный _id карточки.' });
+              return;
+            }
+            res.status(ERROR_DEFAULT).send({ message: 'Произошла ошибка' });
+          });
+      } else {
+        res.status(ERROR_FORBIDDEN).send({ message: 'Вы не являетесь создателем данной карточки' });
       }
-      res.status(ERROR_DEFAULT).send({ message: 'Произошла ошибка' });
     });
 };
 
