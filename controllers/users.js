@@ -1,13 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const {
-  BadRequestError,
-  UnauthorizedError,
-  NotFoundError,
-  ConflictError,
-  DefaultError,
-} = require('../errors/errors');
+const BadRequestError = require('../errors/bad-request-err');
+const UnauthorizedError = require('../errors/unauthorized-err');
+const NotFoundError = require('../errors/not-found-err');
+const ConflictError = require('../errors/conflict-err');
+const DefaultError = require('../errors/default-err');
 
 module.exports.createUser = (req, res, next) => {
   const {
