@@ -7,6 +7,9 @@ const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const {
+  NotFoundError,
+} = require('./errors/errors');
 
 const { PORT = 3000 } = process.env;
 
@@ -29,14 +32,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().min(2).max(130),
-    password: Joi.string().required().min(3),
+    email: Joi.string().required(),
+    password: Joi.string().required(),
   }),
 }), login);
 app.post('/signup', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().min(2).max(130),
-    password: Joi.string().required().min(3),
+    email: Joi.string().required(),
+    password: Joi.string().required(),
   }),
 }), createUser);
 
@@ -44,8 +47,8 @@ app.use(auth);
 
 app.use(usersRouter);
 app.use(cardsRouter);
-app.use((req, res) => {
-  res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
+app.use((req, res, next) => {
+  next(new NotFoundError('Запрашиваемый ресурс не найден.'));
 });
 
 // здесь обрабатываем все ошибки

@@ -10,9 +10,8 @@ module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.status(200).send(cards))
     .catch(() => {
-      throw new DefaultError('Произошла ошибка');
-    })
-    .catch(next);
+      next(new DefaultError('Произошла ошибка'));
+    });
 };
 
 module.exports.deleteCard = (req, res, next) => {

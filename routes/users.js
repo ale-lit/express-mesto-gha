@@ -12,7 +12,7 @@ usersRouter.get('/users', getUsers);
 usersRouter.get('/users/me', getUserMe);
 usersRouter.get('/users/:id', celebrate({
   params: Joi.object().keys({
-    id: Joi.string().alphanum().length(24),
+    id: Joi.string().hex().alphanum().length(24),
   }),
 }), getUser);
 usersRouter.patch('/users/me', celebrate({
@@ -23,7 +23,8 @@ usersRouter.patch('/users/me', celebrate({
 }), updateUser);
 usersRouter.patch('/users/me/avatar', celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().required().min(15),
+    // eslint-disable-next-line no-useless-escape
+    avatar: Joi.string().required().pattern(/^https?:\/\/(www.)?[\w\.\/\-~:\?#\[\]@!\$&'\(\)\*\+,;=]*/),
   }),
 }), updateUserAvatar);
 
