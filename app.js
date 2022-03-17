@@ -16,13 +16,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '6226bc97b3b13cbd6fcf9980',
-  };
+// app.use((req, res, next) => {
+//   req.user = {
+//     _id: '6226bc97b3b13cbd6fcf9980',
+//   };
 
-  next();
-});
+//   next();
+// });
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
