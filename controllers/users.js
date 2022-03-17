@@ -5,6 +5,7 @@ const {
   BadRequestError,
   UnauthorizedError,
   NotFoundError,
+  ConflictError,
   DefaultError,
 } = require('../errors/errors');
 
@@ -29,6 +30,9 @@ module.exports.createUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные при создании пользователя.');
+      }
+      if (err.code === 11000) {
+        throw new ConflictError('Пользователь с таким Email уже есть в базе.');
       }
       throw new DefaultError('Произошла ошибка');
     })

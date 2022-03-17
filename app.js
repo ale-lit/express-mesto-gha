@@ -1,12 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { celebrate, Joi, errors } = require('celebrate');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
@@ -23,8 +24,18 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().min(2).max(130),
+    password: Joi.string().required().min(3),
+  }),
+}), login);
+app.post('/signup', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().min(2).max(130),
+    password: Joi.string().required().min(3),
+  }),
+}), createUser);
 
 app.use(auth);
 
@@ -35,6 +46,8 @@ app.use((req, res) => {
 });
 
 // здесь обрабатываем все ошибки
+app.use(errors());
+
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   // если у ошибки нет статуса, выставляем 500
