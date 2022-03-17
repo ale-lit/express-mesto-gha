@@ -18,23 +18,28 @@ module.exports.createUser = (req, res, next) => {
     password,
   } = req.body;
 
-  bcrypt.hash(password, 10)
-    .then((hash) => User.create({
-      name,
-      about,
-      avatar,
-      email,
-      password: hash,
-    }))
-    .then((user) => res.status(201).send(user))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        throw new BadRequestError('Переданы некорректные данные при создании пользователя.');
+  User.find({ email })
+    .then((result) => {
+      if (result.length === 0) {
+        bcrypt.hash(password, 10)
+          .then((hash) => User.create({
+            name,
+            about,
+            avatar,
+            email,
+            password: hash,
+          }))
+          .then((user) => res.status(201).send(user))
+          .catch((err) => {
+            if (err.name === 'ValidationError') {
+              throw new BadRequestError('Переданы некорректные данные при создании пользователя.');
+            }
+            throw new DefaultError('Произошла ошибка');
+          })
+          .catch(next);
+      } else {
+        throw new ConflictError(`Пользователь с адресом электронной почты ${email} уже существует!`);
       }
-      if (err.code === 11000) {
-        throw new ConflictError('Пользователь с таким Email уже есть в базе.');
-      }
-      throw new DefaultError('Произошла ошибка');
     })
     .catch(next);
 };
