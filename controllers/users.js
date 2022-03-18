@@ -138,8 +138,7 @@ module.exports.login = (req, res, next) => {
         httpOnly: true,
         sameSite: true,
       })
-        .status(200)
-        .send({ message: 'Авторизация прошла успешно!' });
+        .end();
     })
     .catch(() => {
       // ошибка аутентификации
