@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
+const urlRegexpPattern = require('../regexp');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -20,8 +21,7 @@ const userSchema = new mongoose.Schema({
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
       validator(v) {
-        // eslint-disable-next-line no-useless-escape
-        return /^https?:\/\/(www.)?[\w\.\/\-~:\?#\[\]@!\$&'\(\)\*\+,;=]*/.test(v);
+        return urlRegexpPattern.test(v);
       },
       message: (props) => `${props.value} is not a valid url!`,
     },

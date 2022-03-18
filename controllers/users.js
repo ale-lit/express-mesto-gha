@@ -69,7 +69,7 @@ module.exports.getUser = (req, res, next) => {
       if (err.name === 'CastError') {
         throw new BadRequestError('Переданы некорректные данные вместо _id пользователя.');
       }
-      throw new DefaultError('Произошла ошибка');
+      throw err;
     })
     .catch(next);
 };
@@ -86,7 +86,7 @@ module.exports.getUserMe = (req, res, next) => {
       if (err.name === 'CastError') {
         throw new BadRequestError('Переданы некорректные данные вместо _id пользователя.');
       }
-      throw new DefaultError('Произошла ошибка');
+      throw err;
     })
     .catch(next);
 };
@@ -95,15 +95,20 @@ module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
-    .then((user) => res.status(200).send(user))
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('Пользователь по указанному _id не найден.');
+      }
+      res.status(200).send(user);
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные при обновлении профиля.');
       }
       if (err.name === 'CastError') {
-        throw new NotFoundError('Пользователь с указанным _id не найден.');
+        throw new BadRequestError('Переданы некорректные данные вместо _id пользователя.');
       }
-      throw new DefaultError('Произошла ошибка');
+      throw err;
     })
     .catch(next);
 };
@@ -112,15 +117,20 @@ module.exports.updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
-    .then((user) => res.status(200).send(user))
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('Пользователь по указанному _id не найден.');
+      }
+      res.status(200).send(user);
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные при обновлении аватара.');
       }
       if (err.name === 'CastError') {
-        throw new NotFoundError('Пользователь с указанным _id не найден.');
+        throw new BadRequestError('Переданы некорректные данные вместо _id пользователя.');
       }
-      throw new DefaultError('Произошла ошибка');
+      throw err;
     })
     .catch(next);
 };

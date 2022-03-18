@@ -8,6 +8,7 @@ const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
+const urlRegexpPattern = require('./regexp');
 
 const { PORT = 3000 } = process.env;
 
@@ -32,8 +33,7 @@ app.post('/signup', celebrate({
     password: Joi.string().required(),
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    // eslint-disable-next-line no-useless-escape
-    avatar: Joi.string().pattern(/^https?:\/\/(www.)?[\w\.\/\-~:\?#\[\]@!\$&'\(\)\*\+,;=]*/),
+    avatar: Joi.string().pattern(urlRegexpPattern),
   }),
 }), createUser);
 

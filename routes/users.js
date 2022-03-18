@@ -7,6 +7,7 @@ const {
   updateUser,
   updateUserAvatar,
 } = require('../controllers/users');
+const urlRegexpPattern = require('../regexp');
 
 usersRouter.get('/users', getUsers);
 usersRouter.get('/users/me', getUserMe);
@@ -17,14 +18,13 @@ usersRouter.get('/users/:id', celebrate({
 }), getUser);
 usersRouter.patch('/users/me', celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
+    about: Joi.string().required().min(2).max(30),
   }),
 }), updateUser);
 usersRouter.patch('/users/me/avatar', celebrate({
   body: Joi.object().keys({
-    // eslint-disable-next-line no-useless-escape
-    avatar: Joi.string().required().pattern(/^https?:\/\/(www.)?[\w\.\/\-~:\?#\[\]@!\$&'\(\)\*\+,;=]*/),
+    avatar: Joi.string().required().pattern(urlRegexpPattern),
   }),
 }), updateUserAvatar);
 

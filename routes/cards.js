@@ -7,6 +7,7 @@ const {
   likeCard,
   dislikeCard,
 } = require('../controllers/cards');
+const urlRegexpPattern = require('../regexp');
 
 cardsRouter.get('/cards', getCards);
 cardsRouter.delete('/cards/:id', celebrate({
@@ -17,8 +18,7 @@ cardsRouter.delete('/cards/:id', celebrate({
 cardsRouter.post('/cards', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    // eslint-disable-next-line no-useless-escape
-    link: Joi.string().required().pattern(/^https?:\/\/(www.)?[\w\.\/\-~:\?#\[\]@!\$&'\(\)\*\+,;=]*/),
+    link: Joi.string().required().pattern(urlRegexpPattern),
   }),
 }), createCard);
 cardsRouter.put('/cards/:id/likes', celebrate({
