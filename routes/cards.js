@@ -10,33 +10,40 @@ const {
 } = require('../controllers/cards');
 const urlRegexpPattern = require('../regexp');
 
-cardsRouter.options('*', cors());
+const corseOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
 
-cardsRouter.get('/cards', cors(), getCards);
+cardsRouter.options('*', cors(corseOptions));
 
-cardsRouter.options('/cards/:id', cors());
-cardsRouter.delete('/cards/:id', cors(), celebrate({
+cardsRouter.get('/cards', cors(corseOptions), getCards);
+
+cardsRouter.options('/cards/:id', cors(corseOptions));
+cardsRouter.delete('/cards/:id', cors(corseOptions), celebrate({
   params: Joi.object().keys({
     id: Joi.string().hex().alphanum().length(24),
   }),
 }), deleteCard);
 
-cardsRouter.post('/cards', cors(), celebrate({
+cardsRouter.post('/cards', cors(corseOptions), celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     link: Joi.string().required().pattern(urlRegexpPattern),
   }),
 }), createCard);
 
-cardsRouter.options('/cards/:id/likes', cors());
-cardsRouter.put('/cards/:id/likes', cors(), celebrate({
+cardsRouter.options('/cards/:id/likes', cors(corseOptions));
+cardsRouter.put('/cards/:id/likes', cors(corseOptions), celebrate({
   params: Joi.object().keys({
     id: Joi.string().hex().alphanum().length(24),
   }),
 }), likeCard);
 
-cardsRouter.options('/cards/:id/likes', cors());
-cardsRouter.delete('/cards/:id/likes', cors(), celebrate({
+cardsRouter.options('/cards/:id/likes', cors(corseOptions));
+cardsRouter.delete('/cards/:id/likes', cors(corseOptions), celebrate({
   params: Joi.object().keys({
     id: Joi.string().hex().alphanum().length(24),
   }),

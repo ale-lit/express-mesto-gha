@@ -10,28 +10,35 @@ const {
 } = require('../controllers/users');
 const urlRegexpPattern = require('../regexp');
 
-usersRouter.options('*', cors());
+const corseOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
 
-usersRouter.get('/users', cors(), getUsers);
+usersRouter.options('*', cors(corseOptions));
 
-usersRouter.get('/users/me', cors(), getUserMe);
+usersRouter.get('/users', cors(corseOptions), getUsers);
 
-usersRouter.get('/users/:id', cors(), celebrate({
+usersRouter.get('/users/me', cors(corseOptions), getUserMe);
+
+usersRouter.get('/users/:id', cors(corseOptions), celebrate({
   params: Joi.object().keys({
     id: Joi.string().hex().alphanum().length(24),
   }),
 }), getUser);
 
-usersRouter.options('/users/me', cors());
-usersRouter.patch('/users/me', cors(), celebrate({
+usersRouter.options('/users/me', cors(corseOptions));
+usersRouter.patch('/users/me', cors(corseOptions), celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     about: Joi.string().required().min(2).max(30),
   }),
 }), updateUser);
 
-usersRouter.options('/users/me/avatar', cors());
-usersRouter.patch('/users/me/avatar', cors(), celebrate({
+usersRouter.options('/users/me/avatar', cors(corseOptions));
+usersRouter.patch('/users/me/avatar', cors(corseOptions), celebrate({
   body: Joi.object().keys({
     avatar: Joi.string().required().pattern(urlRegexpPattern),
   }),
