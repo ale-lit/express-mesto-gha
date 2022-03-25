@@ -12,7 +12,7 @@ const urlRegexpPattern = require('../regexp');
 
 // cardsRouter.options('*', cors());
 
-cardsRouter.get('/cards', cors(), getCards);
+cardsRouter.get('/cards', getCards);
 
 cardsRouter.options('/cards/:id', cors());
 cardsRouter.delete('/cards/:id', cors(), celebrate({
@@ -21,7 +21,7 @@ cardsRouter.delete('/cards/:id', cors(), celebrate({
   }),
 }), deleteCard);
 
-cardsRouter.post('/cards', cors(), celebrate({
+cardsRouter.post('/cards', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     link: Joi.string().required().pattern(urlRegexpPattern),
