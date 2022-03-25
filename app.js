@@ -11,7 +11,7 @@ const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
 const urlRegexpPattern = require('./regexp');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { corsAllow, corsPreAllow } = require('./middlewares/cors');
+const corsAllow = require('./middlewares/cors');
 
 const { PORT = 3000 } = process.env;
 
@@ -34,7 +34,6 @@ app.use(requestLogger); // подключаем логгер запросов
 // app.use(cors(corseOptions));
 
 app.use(corsAllow);
-app.use(corsPreAllow);
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({

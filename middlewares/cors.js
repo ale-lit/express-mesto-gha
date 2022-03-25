@@ -6,23 +6,18 @@ const allowedCors = [
 ];
 
 // Простые CORS-запросы
-// eslint-disable-next-line consistent-return
-const corsAllow = (req, res, next) => {
+module.exports = (req, res, next) => {
   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
+
+  res.header('Access-Control-Allow-Credentials', true);
+
   // проверяем, что источник запроса есть среди разрешённых
   if (allowedCors.includes(origin)) {
     // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Credentials', true);
-    return res.end();
   }
 
-  next();
-};
-
-// Сложные CORS-запросы (Пре-запросы)
-// eslint-disable-next-line consistent-return
-const corsPreAllow = (req, res, next) => {
   const { method } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
 
   // Значение для заголовка Access-Control-Allow-Methods по умолчанию (разрешены все типы запросов)
@@ -36,14 +31,10 @@ const corsPreAllow = (req, res, next) => {
     // разрешаем кросс-доменные запросы с этими заголовками
     res.header('Access-Control-Allow-Headers', requestHeaders);
     res.header('Access-Control-Allow-Credentials', true);
+
     // завершаем обработку запроса и возвращаем результат клиенту
     return res.end();
   }
 
   next();
-};
-
-module.exports = {
-  corsAllow,
-  corsPreAllow,
 };
