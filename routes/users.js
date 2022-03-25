@@ -29,7 +29,7 @@ usersRouter.get('/users/:id', cors(corseOptions), celebrate({
   }),
 }), getUser);
 
-usersRouter.options('/users/me', cors(corseOptions));
+// usersRouter.options('/users/me', cors(corseOptions));
 usersRouter.patch('/users/me', cors(corseOptions), celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
