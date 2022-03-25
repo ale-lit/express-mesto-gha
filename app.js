@@ -28,8 +28,6 @@ app.use(requestLogger); // подключаем логгер запросов
 const corseOptions = {
   origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
 };
 
 app.use(cors(corseOptions));
@@ -40,7 +38,7 @@ app.post('/signin', cors(), celebrate({
     password: Joi.string().required(),
   }),
 }), login);
-app.post('/signup', cors(), celebrate({
+app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required(),
     password: Joi.string().required(),
