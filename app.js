@@ -33,8 +33,8 @@ app.use(requestLogger); // подключаем логгер запросов
 
 // app.use(cors(corseOptions));
 
-// app.use(corsAllow);
-// app.use(corsPreAllow);
+app.use(corsAllow);
+app.use(corsPreAllow);
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
