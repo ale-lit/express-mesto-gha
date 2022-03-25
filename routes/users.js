@@ -12,9 +12,9 @@ const urlRegexpPattern = require('../regexp');
 
 usersRouter.options('*', cors());
 
-usersRouter.get('/users', getUsers);
-usersRouter.get('/users/me', getUserMe);
-usersRouter.get('/users/:id', celebrate({
+usersRouter.get('/users', cors(), getUsers);
+usersRouter.get('/users/me', cors(), getUserMe);
+usersRouter.get('/users/:id', cors(), celebrate({
   params: Joi.object().keys({
     id: Joi.string().hex().alphanum().length(24),
   }),
