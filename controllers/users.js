@@ -136,9 +136,9 @@ module.exports.updateUserAvatar = (req, res, next) => {
 };
 
 module.exports.login = (req, res, next) => {
-  // const { email, password } = req.body;
+  const { email, password } = req.body;
 
-  res.status(200).send(req.body);
+  res.status(200).send(email + password);
 
   // return User.findUserByCredentials(email, password)
   //   .then((user) => {
