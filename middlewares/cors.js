@@ -6,10 +6,11 @@ const allowedCors = [
 ];
 
 // Простые CORS-запросы
+// eslint-disable-next-line consistent-return
 module.exports = (req, res, next) => {
   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
 
-  res.header('Access-Control-Allow-Credentials', true);
+  // res.header('Access-Control-Allow-Credentials', true);
 
   // проверяем, что источник запроса есть среди разрешённых
   if (allowedCors.includes(origin)) {
