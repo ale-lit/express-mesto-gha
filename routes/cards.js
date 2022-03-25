@@ -14,8 +14,8 @@ const urlRegexpPattern = require('../regexp');
 
 cardsRouter.get('/cards', getCards);
 
-cardsRouter.options('/cards/:id', cors());
-cardsRouter.delete('/cards/:id', cors(), celebrate({
+// cardsRouter.options('/cards/:id', cors());
+cardsRouter.delete('/cards/:id', celebrate({
   params: Joi.object().keys({
     id: Joi.string().hex().alphanum().length(24),
   }),
@@ -28,15 +28,15 @@ cardsRouter.post('/cards', celebrate({
   }),
 }), createCard);
 
-cardsRouter.options('/cards/:id/likes', cors());
-cardsRouter.put('/cards/:id/likes', cors(), celebrate({
+// cardsRouter.options('/cards/:id/likes', cors());
+cardsRouter.put('/cards/:id/likes', celebrate({
   params: Joi.object().keys({
     id: Joi.string().hex().alphanum().length(24),
   }),
 }), likeCard);
 
-cardsRouter.options('/cards/:id/likes', cors());
-cardsRouter.delete('/cards/:id/likes', cors(), celebrate({
+// cardsRouter.options('/cards/:id/likes', cors());
+cardsRouter.delete('/cards/:id/likes', celebrate({
   params: Joi.object().keys({
     id: Joi.string().hex().alphanum().length(24),
   }),
