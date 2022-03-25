@@ -10,7 +10,7 @@ const {
 } = require('../controllers/cards');
 const urlRegexpPattern = require('../regexp');
 
-// cardsRouter.options('*', cors());
+cardsRouter.options('*', cors());
 
 cardsRouter.get('/cards', cors(), getCards);
 

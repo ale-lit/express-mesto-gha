@@ -10,7 +10,7 @@ const {
 } = require('../controllers/users');
 const urlRegexpPattern = require('../regexp');
 
-// usersRouter.options('*', cors());
+usersRouter.options('*', cors());
 
 usersRouter.get('/users', cors(), getUsers);
 
