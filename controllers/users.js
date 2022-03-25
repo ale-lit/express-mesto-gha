@@ -75,6 +75,13 @@ module.exports.getUser = (req, res, next) => {
 };
 
 module.exports.getUserMe = (req, res, next) => {
+  const { authorization } = req.headers;
+  const token = authorization.replace('Bearer ', '');
+  // верифицируем токен
+  const payload = jwt.verify(token, 'some-secret-key');
+
+  res.send(payload);
+
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
@@ -143,13 +150,13 @@ module.exports.login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
       res.send({ token });
 
-      // вернём токен
-      res.cookie('jwt', token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        sameSite: true,
-      })
-        .end();
+      // // вернём токен
+      // res.cookie('jwt', token, {
+      //   maxAge: 3600000 * 24 * 7,
+      //   httpOnly: true,
+      //   sameSite: true,
+      // })
+      //   .end();
     })
     .catch(() => {
       // ошибка аутентификации
