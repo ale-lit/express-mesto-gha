@@ -14,7 +14,7 @@ const corsAllow = (req, res, next) => {
     // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Credentials', true);
-    res.end();
+    return res.end();
   }
 
   next();
@@ -35,6 +35,7 @@ const corsPreAllow = (req, res, next) => {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
     // разрешаем кросс-доменные запросы с этими заголовками
     res.header('Access-Control-Allow-Headers', requestHeaders);
+    res.header('Access-Control-Allow-Credentials', true);
     // завершаем обработку запроса и возвращаем результат клиенту
     return res.end();
   }
