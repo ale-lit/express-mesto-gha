@@ -33,7 +33,7 @@ app.post('/signin', cors(), celebrate({
     password: Joi.string().required(),
   }),
 }), login);
-app.post('/signup', cors(), celebrate({
+app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required(),
     password: Joi.string().required(),
