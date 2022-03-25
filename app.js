@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
@@ -10,7 +11,6 @@ const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not-found-err');
 const urlRegexpPattern = require('./regexp');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { corsPreAllow, corsAllow } = require('./middlewares/cors');
 
 const { PORT = 3000 } = process.env;
 
@@ -25,8 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger); // подключаем логгер запросов
 
-app.use(corsPreAllow);
-app.use(corsAllow);
+app.use(cors());
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({

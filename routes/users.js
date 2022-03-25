@@ -1,5 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
 const usersRouter = require('express').Router();
+const cors = require('cors');
 const {
   getUsers,
   getUserMe,
@@ -9,6 +10,8 @@ const {
 } = require('../controllers/users');
 const urlRegexpPattern = require('../regexp');
 
+usersRouter.options('*', cors());
+
 usersRouter.get('/users', getUsers);
 usersRouter.get('/users/me', getUserMe);
 usersRouter.get('/users/:id', celebrate({
@@ -16,13 +19,13 @@ usersRouter.get('/users/:id', celebrate({
     id: Joi.string().hex().alphanum().length(24),
   }),
 }), getUser);
-usersRouter.patch('/users/me', celebrate({
+usersRouter.patch('/users/me', cors(), celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     about: Joi.string().required().min(2).max(30),
   }),
 }), updateUser);
-usersRouter.patch('/users/me/avatar', celebrate({
+usersRouter.patch('/users/me/avatar', cors(), celebrate({
   body: Joi.object().keys({
     avatar: Joi.string().required().pattern(urlRegexpPattern),
   }),

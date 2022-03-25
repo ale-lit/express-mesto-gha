@@ -1,5 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
 const cardsRouter = require('express').Router();
+const cors = require('cors');
 const {
   getCards,
   deleteCard,
@@ -9,8 +10,10 @@ const {
 } = require('../controllers/cards');
 const urlRegexpPattern = require('../regexp');
 
+cardsRouter.options('*', cors());
+
 cardsRouter.get('/cards', getCards);
-cardsRouter.delete('/cards/:id', celebrate({
+cardsRouter.delete('/cards/:id', cors(), celebrate({
   params: Joi.object().keys({
     id: Joi.string().hex().alphanum().length(24),
   }),
@@ -21,12 +24,12 @@ cardsRouter.post('/cards', celebrate({
     link: Joi.string().required().pattern(urlRegexpPattern),
   }),
 }), createCard);
-cardsRouter.put('/cards/:id/likes', celebrate({
+cardsRouter.put('/cards/:id/likes', cors(), celebrate({
   params: Joi.object().keys({
     id: Joi.string().hex().alphanum().length(24),
   }),
 }), likeCard);
-cardsRouter.delete('/cards/:id/likes', celebrate({
+cardsRouter.delete('/cards/:id/likes', cors(), celebrate({
   params: Joi.object().keys({
     id: Joi.string().hex().alphanum().length(24),
   }),
