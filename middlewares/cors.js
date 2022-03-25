@@ -14,7 +14,7 @@ const corsAllow = (req, res, next) => {
     // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Credentials', true);
-    return res.end();
+    res.end();
   }
 
   next();
