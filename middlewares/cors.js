@@ -5,6 +5,18 @@ const allowedCors = [
   'localhost:3000',
 ];
 
+// Простые CORS-запросы
+const corsAllow = (req, res, next) => {
+  const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
+  // проверяем, что источник запроса есть среди разрешённых
+  if (allowedCors.includes(origin)) {
+    // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  next();
+};
+
 // Сложные CORS-запросы (Пре-запросы)
 // eslint-disable-next-line consistent-return
 const corsPreAllow = (req, res, next) => {
@@ -22,18 +34,6 @@ const corsPreAllow = (req, res, next) => {
     res.header('Access-Control-Allow-Headers', requestHeaders);
     // завершаем обработку запроса и возвращаем результат клиенту
     return res.end();
-  }
-
-  next();
-};
-
-// Простые CORS-запросы
-const corsAllow = (req, res, next) => {
-  const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
-  // проверяем, что источник запроса есть среди разрешённых
-  if (allowedCors.includes(origin)) {
-    // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
-    res.header('Access-Control-Allow-Origin', origin);
   }
 
   next();
