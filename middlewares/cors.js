@@ -8,7 +8,7 @@ const allowedCors = [
 // Простые CORS-запросы
 const corsAllow = (req, res, next) => {
   const { origin } = req.headers; // Сохраняем источник запроса в переменную origin
-  console.log(origin);
+  res.send(origin);
   // проверяем, что источник запроса есть среди разрешённых
   if (allowedCors.includes(origin)) {
     // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
