@@ -25,7 +25,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger); // подключаем логгер запросов
 
-// app.use(cors());
+const corseOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corseOptions));
 
 app.post('/signin', cors(), celebrate({
   body: Joi.object().keys({
@@ -46,7 +53,7 @@ app.post('/signup', cors(), celebrate({
 app.use(auth);
 
 app.use(usersRouter);
-// app.use(cardsRouter);
+app.use(cardsRouter);
 app.use((req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден.'));
 });
