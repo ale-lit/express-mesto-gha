@@ -46,7 +46,7 @@ app.post('/signup', cors(), celebrate({
 app.use(auth);
 
 app.use(usersRouter);
-app.use(cardsRouter);
+// app.use(cardsRouter);
 app.use((req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден.'));
 });
