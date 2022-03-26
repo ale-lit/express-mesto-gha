@@ -12,50 +12,6 @@ module.exports.getCards = (req, res, next) => {
     });
 };
 
-// module.exports.deleteCard = (req, res, next) => {
-//   const { id } = req.params;
-//   Card.findById(id)
-//     .orFail(() => new NotFoundError('Нет карточки по заданному id'))
-//     .then((card) => {
-//       if (!card.owner.equals(req.user._id)) {
-//         // пользователь не может удалить карточку, которую он не создавал
-//         next(new ForbiddenError('Нельзя удалить чужую карточку'));
-//       } else {
-//         Card.deleteOne(card)
-//           .then(() => res.send({ data: card }));
-//       }
-//     })
-//     .catch(next);
-// };
-
-// module.exports.deleteCard = (req, res, next) => {
-//   Card.findById(req.params.id)
-//     .orFail(() => new NotFoundError('Нет карточки по заданному id'))
-//     .then((card) => {
-//       if (String(card.owner) === req.user._id) {
-//         Card.findByIdAndRemove(req.params.id)
-//           .then(() => {
-//             res.status(200).send({ message: 'Карточка удалена' });
-//           })
-//           .catch((err) => {
-//             if (err.name === 'CastError') {
-//               throw new BadRequestError('Передан некорректный _id карточки.');
-//             }
-//             throw new DefaultError('Произошла ошибка');
-//           });
-//       } else {
-//         throw new ForbiddenError('Вы не являетесь создателем данной карточки');
-//       }
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         throw new BadRequestError('Передан некорректный id карточки.');
-//       }
-//       throw err;
-//     })
-//     .catch(next);
-// };
-
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.id)
     .then((card) => {

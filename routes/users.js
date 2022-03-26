@@ -1,6 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
 const usersRouter = require('express').Router();
-// const cors = require('cors');
 const {
   getUsers,
   getUserMe,
@@ -9,15 +8,6 @@ const {
   updateUserAvatar,
 } = require('../controllers/users');
 const urlRegexpPattern = require('../regexp');
-
-// const corseOptions = {
-//   origin: '*',
-//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//   preflightContinue: false,
-//   optionsSuccessStatus: 204,
-// };
-
-// usersRouter.options('*', cors(corseOptions));
 
 usersRouter.get('/users', getUsers);
 
@@ -29,7 +19,6 @@ usersRouter.get('/users/:id', celebrate({
   }),
 }), getUser);
 
-// usersRouter.options('/users/me');
 usersRouter.patch('/users/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
@@ -37,7 +26,6 @@ usersRouter.patch('/users/me', celebrate({
   }),
 }), updateUser);
 
-// usersRouter.options('/users/me/avatar');
 usersRouter.patch('/users/me/avatar', celebrate({
   body: Joi.object().keys({
     avatar: Joi.string().required().pattern(urlRegexpPattern),
